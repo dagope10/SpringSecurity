@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+		<a class="navbar-brand" th:href="@{/}">AppProductos</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+
+				<li sec:authorize="hasRole('ROLE_GESTOR')" class="nav-item active">
+					<a class="nav-link" th:href="@{/app/tipos/todos}">Tipos</a>
+				</li>
+
+
+				<li class="nav-item"><a class="nav-link" th:href="@{/}">Eventos</a>
+				</li>
+
+
+				<li sec:authorize="hasAnyRole('ROLE_GESTOR','ROLE_ADMINISTRADOR')"
+					class="nav-item"><a class="nav-link"
+					th:href="@{/app/usuarios/todos}">Usuarios</a></li>
+
+
+				<li sec:authorize="hasRole('ROLE_ADMINISTRADOR')" class="nav-item">
+					<a class="nav-link" th:href="@{/app/perfiles/todos}">Perfiles<a />
+				</li>
+			</ul>
+		</div>
+		<spam sec:authentication="name"></spam>
+		<ul class="nav justify-content-end">
+			<li sec:authorize="!isAuthenticated()" class="nav-item"><a
+				class="nav-link" th:href="@{/index}">Iniciar Sesion</a></li>
+			<li sec:authorize="!isAuthenticated()" class="nav-item"><a
+				class="nav-link" th:href="@{/signup}">Registrarse</a></li>
+
+			<li sec:authorize="isAuthenticated()" class="nav-item"><a
+				class="nav-link" th:href="@{/logout}">Cerrar Sesion</a></li>
+		</ul>
+
+	</nav>
+	<div>
+	<h1>Datos del Evento</h1>
+
+	<h2 th:text="${evento.nombre}"></h2>
+	<table border=1>
+		<thead>
+			<tr>
+				<th>Detalles</th>
+				<th>Valores</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>idEvento</td>
+				<td th:text="${evento.idEvento}"></td>
+			</tr>
+		<tr>
+			<td>Tipo de Evento</td>
+			<td th:text="${evento.tipo.nombre}"></td>
+		</tr>	
+		<tr>
+			<td>Descripción</td>
+			<td th:text="${evento.descripcion}"></td>
+		</tr>
+		<tr>
+			<td>Precio</td>
+			<td th:text="${evento.precio}"></td>
+		</tr>
+		<tr>
+			<td>Fecha Inicio</td>
+			<td th:text="${evento.fechaInicio}"></td>
+		</tr>
+		<tr>
+			<td>Duración</td>
+			<td th:text="${evento.duracion}"></td>
+		</tr>	
+		<tr>
+			<td>Aforo Máximo</td>
+			<td th:text="${evento.aforoMaximo}"></td>
+		</tr>
+		<tr>
+			<td>¿Evento Destacado?</td>
+			<td th:text="${evento.destacado}"></td>
+		</tr>
+		<tr>
+			<td>Status Evento</td>
+			<td th:text="${evento.estado}"></td>
+		</tr>	
+		<tr>
+			<td>Mínimo de asistentes</td>
+			<td th:text="${evento.minimoAsistencia}"></td>
+		</tr>
+					
+	</tbody>
+
+</table>
+	</div>
+	<br>
+	<div>
+	<h4>Reserva de entradas</h4>
+	<!-- Formulario para introducir la cantidad de entradas a reservar -->	
+	<form th:action="@{/reservar}" method="post" th:object="${model}">
+	<input type="hidden" th:field="${evento}"></input>
+	  <label for="numero_entradas">Selecciona las entradas a reservar</label>
+	  <select class="form-select" id="numero_entradas" name="numero">
+		  <option value=1>1</option>
+		  <option value=2>2</option>
+		  <option value=3>3</option>
+		  <option value=4>4</option>
+		  <option value=5>5</option>
+		  <option value=6>6</option>
+		  <option value=7>7</option>
+		  <option value=8>8</option>
+		  <option value=9>9</option>
+		  <option value=10>10</option>
+		</select>
+	  <input type="submit" value="Reservar">
+	</form>
+	</div>
+</body>
+</html>
