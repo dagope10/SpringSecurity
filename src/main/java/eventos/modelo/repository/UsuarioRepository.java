@@ -11,10 +11,12 @@ import eventos.modelo.entitis.Usuario;
 
 
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
+public interface UsuarioRepository extends JpaRepository<Usuario,String>{
 
 	@Query("select u from Usuario u where u.username = ?1")
 	public Usuario findById(String username);
+
+	public Usuario findByUsername(String username);
 
 	
 

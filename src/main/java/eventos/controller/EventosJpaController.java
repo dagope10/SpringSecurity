@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import eventos.modelo.dao.EventoDao;
+import eventos.modelo.dao.ReservaDaoImplMy8;
 import eventos.modelo.entitis.Evento;
 import eventos.modelo.entitis.Reserva;
 import eventos.modelo.repository.EventoRepository;
@@ -30,13 +32,18 @@ public class EventosJpaController {
 	EventoDao edao;
 	@Autowired
 	ReservaRepository rrepo;
+	@Autowired
+	ReservaDaoImplMy8 reservaDao;
 	
 	@GetMapping("/verUno/{id}")
-	public String verUno(Model model, @PathVariable(name="id") int  idEvento) {
-		
+	public String verUno(Model model, @PathVariable(name="id") int idEvento, Authentication authentication) {
+		String username = authentication.getName();
 		Evento evento = edao.buscarUno(idEvento);
 		model.addAttribute("evento", evento);
-		
+		int aforoDisponible = reservaDao.calcularEntradas(idEvento);
+		int entradasDisponibles = reservaDao.entradasDisponiblesParaUsuario(username);
+		model.addAttribute("aforoDisponible", aforoDisponible);
+		model.addAttribute("entradasDisponibles", entradasDisponibles);		
 		return "verUnEvento";
 		
 	}
@@ -65,22 +72,29 @@ public class EventosJpaController {
 	 * Necesitamos una query para sacar reservas r donde username sea ?1 y idEvento ?2
 	 */
 	@PostMapping("/reservar")
-	public String procFormReserva(HttpSession sesion, RedirectAttributes ratt, @RequestParam Evento evento, @RequestParam int numeroEntradas) {
+	public String procFormReserva(@RequestParam("numero") int cantidad, @RequestParam("evento") int idEvento,
+			Authentication authentication, RedirectAttributes ratt, Model model) {
 
-		String idSesion = sesion.getId();
-		System.out.println(idSesion);
-		//List<Reserva> reservas = rrepo.findPorEventoYUsername(evento.getIdEvento(), sesion.getId());
+		String username = authentication.getName();
+		boolean reservaCreada = reservaDao.crearReserva(idEvento, username, cantidad);
 		
-		/*
-		int reservasActuales=0;
-		for(Reserva reserva : reservas) {
-			reservasActuales+=reserva.getCantidad();
+		
+		if(reservaCreada) {
+			ratt.addFlashAttribute("mensajeExito", "Reserva realizada con éxito");
+			return "redirect:/app/evento/verUno/" + idEvento;
+		} else {
+			ratt.addFlashAttribute("mensajeError", "No se pudo realizar la reserva");
+			return "redirect:/app/evento/verUno/" + idEvento;
 		}
-		System.out.println(reservasActuales);
-*/
-
-		return "redirect:/listaEventos";
-
+			
+	}
+	
+	@GetMapping("/miseventos")
+	public String misEventos(Model model, Authentication authentication) {
+		String username = authentication.getName();
+		List<Reserva> reservas = reservaDao.porUsername(username);
+		model.addAttribute("reservas", reservas);
+		return "miseventos";
 	}
 	
 	/*Si nos da tiempo a meter más roles

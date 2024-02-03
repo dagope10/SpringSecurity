@@ -44,6 +44,11 @@ public class HomeController{
 		 
 	}
 	
+	@GetMapping("/InicioSesion")
+	public String mostrarLogin() {
+		return "InicioSesion";
+	}
+	
 	/*GetMapping para el registro. Sirve para formar un objeto de tipo usuario para guardar y mandarlo al form*/
 	@GetMapping("/signup")
 	public String registrar(Model model) {

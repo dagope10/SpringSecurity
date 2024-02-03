@@ -34,6 +34,10 @@
       <li class="nav-item">
         <a class="nav-link" th:href="@{/}">Eventos</a>
       </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/app/evento/miseventos}">Mis eventos</a>
+      </li>
        
       
       <li sec:authorize="hasAnyRole('ROLE_GESTOR','ROLE_ADMINISTRADOR')" class="nav-item">

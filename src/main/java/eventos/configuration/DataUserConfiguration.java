@@ -59,7 +59,12 @@ public class DataUserConfiguration{
 			
 			.anyRequest().authenticated())
 		// El formulario de Login no requiere autenticacion
-		.formLogin(form -> form.permitAll());
+		.formLogin(form -> form
+		.loginPage("/InicioSesion")
+		.loginProcessingUrl("/perform_login")
+		.defaultSuccessUrl("/", true)
+		.failureUrl("/InicioSesion?error=true")
+		.permitAll());
 		return http.build();
 	}
 	
