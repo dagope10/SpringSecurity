@@ -13,9 +13,9 @@ public class UsuarioDaoImplMy8 implements UsuarioDao {
 	private UsuarioRepository urepo;
 	
 	@Override
-	public Usuario findById(String username) {
+	public Usuario findByUsername(String username) {
 		// TODO Auto-generated method stub
-		Usuario usuarioEncontrado = urepo.findById(username);
+		Usuario usuarioEncontrado = urepo.findByUsername(username);
 		
 		if (usuarioEncontrado==null) {
 			return null;
@@ -26,7 +26,7 @@ public class UsuarioDaoImplMy8 implements UsuarioDao {
 	
 	@Override
 	public int registro(Usuario usuario) {
-		if (findById(usuario.getUsername()) == null) {
+		if (findByUsername(usuario.getUsername()) == null) {
 				urepo.save(usuario);
 				return 1;
 		}

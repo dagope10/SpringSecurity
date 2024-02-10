@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import eventos.modelo.dao.*;
 import eventos.modelo.entitis.Evento;
 import eventos.modelo.entitis.Usuario;
+import eventos.modelo.repository.TipoRepository;
 
 @Controller
 public class HomeController{
@@ -77,6 +78,9 @@ public class HomeController{
 	 	}
 		
 	}
+	
+
+	
 	
 	
 	@GetMapping("/error")

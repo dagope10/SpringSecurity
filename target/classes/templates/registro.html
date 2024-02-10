@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<!-- Bootstrap CSS CDN -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 <head>
 <meta charset="UTF-8">
 <title>App de Reservas</title>
@@ -9,16 +11,38 @@
 	<h1>¡Bienvenido!</h1>
 	<h2>Regístrate para disfrutar de todo el potencial de la app</h2>
 	<h2 th:text="${mensaje}"></h2>
-	
-	
-	<form th:action="@{/signup}" method="post" th:object="${usuario}"><br>
-		<input type="text" th:field="*{username}" placeholder="Username"> <br>
-		<input type="text" th:field="*{password}" placeholder="Contraseña"> <br>
-		<input type="text" th:field="*{nombre}" placeholder="Nombre"> <br>
-		<input type="text" th:field="*{apellidos}" placeholder="Apellidos"><br> 
-		<input type="text" th:field="*{direccion}" placeholder="Direccion"><br><br> 
-		<input 	type="submit" value="Registrar">
 
-	</form>
+	<div class="container">
+		<h2 class="mt-5">Formulario de Registro</h2>
+		<form th:action="@{/signup}" method="post" th:object="${usuario}"
+			class="mt-4">
+			<br>
+			<div class="form-group">
+				<label for="username">Usuario:</label> <input type="text"
+					th:field="*{username}" class="form-control"> <br>
+			</div>
+
+			<div class="form-group">
+				<label for="password">Contraseña:</label> <input type="text"
+					th:field="*{password}" class="form-control"> <br>
+			</div>
+			<div class="form-group">
+				<label for="nombre">Nombre:</label> <input type="text"
+					th:field="*{nombre}" class="form-control"> <br>
+			</div>
+			<div class="form-group">
+				<label for="apellidos">Apellidos:</label> <input type="text"
+					th:field="*{apellidos}" class="form-control"> <br>
+			</div>
+
+			<div class="form-group">
+				<label for="direccion">Dirección:</label> <input type="text"
+					th:field="*{direccion}" class="form-control"><br>
+				<br>
+			</div>
+			<input type="submit" value="Registrar">
+
+		</form>
+	</div>
 </body>
 </html>

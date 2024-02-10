@@ -4,7 +4,7 @@ import eventos.modelo.entitis.Usuario;
 
 public interface UsuarioDao {
 	
-	Usuario findById(String username);
+	Usuario findByUsername(String username);
 	int registro(Usuario usuario);
 	
 

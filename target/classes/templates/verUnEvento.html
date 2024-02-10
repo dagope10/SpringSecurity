@@ -55,6 +55,7 @@
 	<h1>Datos del Evento</h1>
 
 	<h2 th:text="${evento.nombre}"></h2>
+	
 	<table border=1>
 		<thead>
 			<tr>
@@ -63,10 +64,6 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>idEvento</td>
-				<td th:text="${evento.idEvento}"></td>
-			</tr>
 		<tr>
 			<td>Tipo de Evento</td>
 			<td th:text="${evento.tipo.nombre}"></td>
@@ -92,6 +89,10 @@
 			<td th:text="${evento.aforoMaximo}"></td>
 		</tr>
 		<tr>
+			<td>Aforo restante</td>
+			<td th:text="${aforoDisponible}"></td>
+		</tr>
+		<tr>
 			<td>¿Evento Destacado?</td>
 			<td th:text="${evento.destacado}"></td>
 		</tr>
@@ -112,23 +113,24 @@
 	<div>
 	<h4>Reserva de entradas</h4>
 	<!-- Formulario para introducir la cantidad de entradas a reservar -->	
-	<form th:action="@{/reservar}" method="post" th:object="${model}">
-	<input type="hidden" th:field="${evento}"></input>
+	<form th:action="@{/app/evento/reservar}" method="post" th:object="${model}">
+	<input type="hidden" name="evento" th:value="${evento.idEvento}" />
 	  <label for="numero_entradas">Selecciona las entradas a reservar</label>
-	  <select class="form-select" id="numero_entradas" name="numero">
-		  <option value=1>1</option>
-		  <option value=2>2</option>
-		  <option value=3>3</option>
-		  <option value=4>4</option>
-		  <option value=5>5</option>
-		  <option value=6>6</option>
-		  <option value=7>7</option>
-		  <option value=8>8</option>
-		  <option value=9>9</option>
-		  <option value=10>10</option>
-		</select>
-	  <input type="submit" value="Reservar">
+	 <select class="form-select" id="numero_entradas" name="numero">
+    <th:block th:each="num : ${#numbers.sequence(1, entradasDisponibles)}">
+        <option th:value="${num}" th:text="${num}"></option>
+    </th:block>
+</select>
+	  <input type="submit" value="Reservar" th:disabled="${entradasDisponibles <= 0}">
 	</form>
 	</div>
+	<div th:if="${mensajeExito}" class="alert alert-success" role="alert">
+    <p th:text="${mensajeExito}"></p>
+</div>
+
+<div th:if="${mensajeError}" class="alert alert-danger" role="alert">
+    <p th:text="${mensajeError}"></p>
+</div>
+	
 </body>
 </html>

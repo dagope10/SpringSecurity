@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Reservas de eventos</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
@@ -20,7 +20,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	
   <a class="navbar-brand" th:href="@{/}">EventosApp</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" 
+  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
@@ -34,6 +35,30 @@
       <li class="nav-item">
         <a class="nav-link" th:href="@{/}">Eventos</a>
       </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/app/evento/miseventos}">Mis eventos</a>
+      </li>
+      
+	  <li class="nav-item dropdown">
+		<div class="dropdown">
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Tipos de eventos
+		  </button>
+
+		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		  
+ 		    <th:block th:each="tipo : ${tipos}">
+				<a class="dropdown-item" th:text="${tipo.nombre}" th:href="#"></a>
+    		</th:block>
+		    <a class="dropdown-item" href="#">Action</a>
+		    <a class="dropdown-item" href="#">Another action</a>
+		    <a class="dropdown-item" href="#">Something else here</a>
+		  </div>
+		</div>
+
+	  </li>
+
        
       
       <li sec:authorize="hasAnyRole('ROLE_GESTOR','ROLE_ADMINISTRADOR')" class="nav-item">
@@ -60,7 +85,7 @@
 </nav>
 </header>
 <div class="container">
-	<h1 class="text-primary">Lista de Eventos Destacados</h1>
+	<h1 class="text-primary">Lista de Eventos </h1>
 	
 	<!-- Si da tiempo a más podemos meter los perfiles 
 	<div sec:authorize="hasAnyRole('ROLE_GESTOR','ROLE_ADMINISTRADOR')">
