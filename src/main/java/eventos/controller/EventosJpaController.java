@@ -18,6 +18,7 @@ import eventos.modelo.dao.EventoDao;
 import eventos.modelo.dao.ReservaDaoImplMy8;
 import eventos.modelo.entitis.Evento;
 import eventos.modelo.entitis.Reserva;
+import eventos.modelo.entitis.Tipo;
 import eventos.modelo.repository.EventoRepository;
 import eventos.modelo.repository.ReservaRepository;
 import jakarta.servlet.http.HttpSession;
@@ -45,6 +46,7 @@ public class EventosJpaController {
 		return "verUnEvento";
 
 	}
+	
 	//Método desarrollado por si llegamos a meter niveles admin
 	@GetMapping("/eliminar/{id}")
 	public String eliminar(Model model, @PathVariable(name = "id") int idEvento) {
@@ -106,63 +108,5 @@ public class EventosJpaController {
 		model.addAttribute("reservas", reservas);
 		return "miseventos";
 	}
-
-	/*
-	 * Si nos da tiempo a meter más roles
-	 * 
-	 * @GetMapping("/alta") public String enviarFormulario() {
-	 * 
-	 * 
-	 * return "formProducto";
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @PostMapping("/alta") public String procesarFormulario(Model model,Producto
-	 * producto ) {
-	 * 
-	 * 
-	 * System.out.println(producto);
-	 * 
-	 * pdao.insertarProducto(producto);
-	 * 
-	 * System.out.println(producto);
-	 * 
-	 * 
-	 * return "redirect:/";
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @GetMapping("/editar/{id}") public String enviarFormularioEditar(Model
-	 * model, @PathVariable(name="id") int codigo) {
-	 * 
-	 * 
-	 * 
-	 * model.addAttribute("producto", pdao.buscarUno(codigo)); return
-	 * "formProductoEditar";
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @PostMapping("/modificar") public String procesarFormularioEditar(Model
-	 * model,Producto producto ) {
-	 * 
-	 * 
-	 * System.out.println(producto);
-	 * 
-	 * pdao.modificarProducto(producto);
-	 * 
-	 * // System.out.println(producto);
-	 * 
-	 * 
-	 * return "redirect:/";
-	 * 
-	 * 
-	 * }
-	 * 
-	 * @GetMapping("/ver") public String verUsuarios(Model model) {
-	 * model.addAttribute("mensaje", "Listado de usuarios"); return "pruebas"; }
-	 */
 
 }

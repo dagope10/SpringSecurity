@@ -47,8 +47,9 @@ public class DataUserConfiguration{
 		http.authorizeHttpRequests(authorize -> authorize
 			.requestMatchers("static/**").permitAll()
 			// Las vistas públicas no requieren autenticación
+			.requestMatchers("/static/**", "/css/**", "/js/**", "/json/**", "/images/**").permitAll()
 			.requestMatchers("/registro","/","/signup", "/login", "/logout", "/eventos/verUno/**").permitAll()
-			.requestMatchers("/eventos/activos", "/eventos/destacados").permitAll()
+			.requestMatchers("/eventos/activos", "/eventos/destacados", "/filtrados/**").permitAll()
 			.requestMatchers("/rest/encriptar/**").permitAll()
 			.requestMatchers("/rest/**").permitAll()
 

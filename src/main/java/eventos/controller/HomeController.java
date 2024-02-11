@@ -8,11 +8,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import eventos.modelo.dao.*;
 import eventos.modelo.entitis.Evento;
+import eventos.modelo.entitis.Tipo;
 import eventos.modelo.entitis.Usuario;
 import eventos.modelo.repository.TipoRepository;
 
@@ -40,8 +42,26 @@ public class HomeController{
 		model.addAttribute("listaDestacados", listaDestacados);
 		List<Evento> listaActivos = edao.buscarEventosActivos("ACTIVO");
 		model.addAttribute("listaActivos", listaActivos);
+		List<Tipo> listaTipos = tdao.todos();
+		model.addAttribute("listaTipos", listaTipos);
 		
 		return "listaEventos";
+		 
+	}
+	
+	
+	@GetMapping("/filtrados/{id}")
+	public String verFiltrados(Model model, Authentication aut,@PathVariable(name = "id") int idTipo) {
+		
+	//	System.out.println(aut.getName() + "  -  " + aut.getAuthorities());
+		List<Evento> listaFiltrada = edao.buscarEventosPorTipo(idTipo);
+		model.addAttribute("listaFiltrada", listaFiltrada);
+		String tipoEventoFiltrado = "Listado de eventos de tipo "+tdao.buscarUno(idTipo).getNombre()+": ";
+		model.addAttribute("tipoEventoFiltrado", tipoEventoFiltrado);
+		List<Tipo> listaTipos = tdao.todos();
+		model.addAttribute("listaTipos", listaTipos);
+		
+		return "listaEventosFiltrados";
 		 
 	}
 	
